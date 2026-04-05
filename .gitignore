@@ -24,3 +24,6 @@ docs/.vitepress/cache
 *.db
 autoresearch/results/
 autoresearch-results.tsv
+
+# More
+src/clis/mycollege/college.yaml
