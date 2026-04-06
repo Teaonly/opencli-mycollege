@@ -1,33 +1,9 @@
-import os from 'node:os';
-import path from 'node:path';
-import fs from "node:fs";
-import yaml from 'js-yaml';
 import { cli, Strategy } from '../../registry-api.js';
 import {IPage} from "../../types.js";
 
+import { CollegeConfig, loadConfig} from "./config.js";
 
-interface CollegeConfig {
-  // 内部门户系统入口位置，可以通过定时打开刷新，确保 COOKIE 不过期
-  HOME_URL: string;
-  // 系统内部消息入口和获取API地址
-  MESSAGE_URL: string;
-  MESSAGE_API_URL: string;
-}
-
-function loadConfig(): CollegeConfig {
-  const configPaths = [
-    path.join(os.homedir(), '.college.yaml'),
-  ];
-
-  for (const configPath of configPaths) {
-    if (fs.existsSync(configPath)) {
-      const content = fs.readFileSync(configPath, 'utf-8');
-      return yaml.load(content) as CollegeConfig;
-    }
-  }
-  throw new Error("Can't open ~/.college.yaml!");
-}
-const config = loadConfig();
+const config:CollegeConfig  = loadConfig();
 
 cli({
   site: 'mycollege',
@@ -35,7 +11,7 @@ cli({
   description: '获取站内信',
   strategy: Strategy.COOKIE,
   args: [
-    { name: 'limit', type: 'int', default: 20, help: '返回站内信列表' },
+    { name: 'limit', type: 'int', default: 20, help: '返回站内信最新列表数' },
   ],
   columns: ['主题', '发信人', '发信人部门', '发信时间'],
   func: async (page: IPage, args) => {
