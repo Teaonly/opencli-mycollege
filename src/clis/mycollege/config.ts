@@ -10,8 +10,9 @@ export interface CollegeConfig {
   MESSAGE_URL: string;
   MESSAGE_API_URL: string;
   // 查询课表
+  JIAOWU_URL: string;
   COURSE_URL: string;
-  COURSR_API_URL: string;
+  COURSE_API_URL: string;
   // 学校通知
   NEWS_URL: string;
   NEWS_API_URL: string;
